@@ -52,7 +52,7 @@ class DesignService(DesignServiceInterface):
         if dlist:
             return dlist.get(design_id)
         else:
-            throw Exception()
+            raise Exception()
 
 def main():
     service = DesignService()
