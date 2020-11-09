@@ -41,7 +41,6 @@ class DesignService(DesignServiceInterface):
             newid = uuid.uuid4()
             self.userdidmap[ctx.user_id].append(str(newid))
 
-        # Get the did then set
         self.didcontentmap[newid] = design_content
 
         return str(newid)
@@ -49,7 +48,11 @@ class DesignService(DesignServiceInterface):
     def get_design(self, ctx: AuthContext, design_id: str) -> str:
         """Returns the design content, if the user has access to the design."""
 
-        return self.usercontentdict.get(ctx.user_id)
+        dlist = self.usercontentdict.get(ctx.user_id)
+        if dlist:
+            return dlist.get(design_id)
+        else:
+            throw Exception()
 
 def main():
     service = DesignService()
