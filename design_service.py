@@ -23,3 +23,17 @@ class DesignServiceInterface:
     def get_design(self, ctx: AuthContext, design_id: str) -> str:
         """Returns the design content, if the user has access to the design."""
         raise NotImplementedError
+
+class DesignServiceInterfaceSomething(DesignServiceInterface):
+    def __init__(self):
+        self.usercontentdict = {}
+
+    def create_design(self, ctx: AuthContext, design_content: str) -> str:
+        """Creates a design and returns the design id"""
+
+        self.usercontentdict[ctx.user_id] = design_content
+
+    def get_design(self, ctx: AuthContext, design_id: str) -> str:
+        """Returns the design content, if the user has access to the design."""
+
+        return self.usercontentdict[ctx.user_id]
