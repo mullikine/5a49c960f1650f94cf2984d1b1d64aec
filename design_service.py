@@ -8,6 +8,8 @@
 
 
 from typing import List, Iterable
+import uuid
+
 
 # Identifies the caller of a service method.
 class AuthContext:
@@ -24,16 +26,33 @@ class DesignServiceInterface:
         """Returns the design content, if the user has access to the design."""
         raise NotImplementedError
 
-class DesignServiceInterfaceSomething(DesignServiceInterface):
+class DesignService(DesignServiceInterface):
     def __init__(self):
-        self.usercontentdict = {}
+        # {user id -> (design ids)}
+        self.userdidmap = {}
+
+        # {design_id -> content}
+        self.didcontentmap = {}
 
     def create_design(self, ctx: AuthContext, design_content: str) -> str:
         """Creates a design and returns the design id"""
 
-        self.usercontentdict[ctx.user_id] = design_content
+        if self.userdidmap[ctx.user_id]:
+            newid = uuid.uuid4()
+            self.userdidmap[ctx.user_id].append(str(newid))
+
+        # Get the did then set
+        self.didcontentmap[newid] = design_content
+
+        return str(newid)
 
     def get_design(self, ctx: AuthContext, design_id: str) -> str:
         """Returns the design content, if the user has access to the design."""
 
-        return self.usercontentdict[ctx.user_id]
+        return self.usercontentdict.get(ctx.user_id)
+
+def main():
+    service = DesignService()
+
+    foo_id = service.create_design(ctx, 'foo')
+    service.get_design(ctx, foo_id) -> 'foo'
