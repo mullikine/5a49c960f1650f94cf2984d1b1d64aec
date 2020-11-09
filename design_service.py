@@ -49,6 +49,7 @@ class DesignService(DesignServiceInterface):
         """Returns the design content, if the user has access to the design."""
 
         dlist = self.usercontentdict.get(ctx.user_id)
+
         if dlist:
             return dlist.get(design_id)
         else:
