@@ -51,7 +51,9 @@ class DesignService(DesignServiceInterface):
         """Returns the design content, if the user has access to the design."""
 
         dlist = self.userdidmap.get(ctx.user_id)
-        if not design_id in didcontentmap.keys
+        if not design_id in didcontentmap:
+            raise Exception()
+
         if design_id in dlist:
             return self.didcontentmap.get(design_id)
         else:
