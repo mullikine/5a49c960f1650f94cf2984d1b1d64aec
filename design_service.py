@@ -37,9 +37,11 @@ class DesignService(DesignServiceInterface):
     def create_design(self, ctx: AuthContext, design_content: str) -> str:
         """Creates a design and returns the design id"""
 
-        if self.userdidmap[ctx.user_id]:
-            newid = uuid.uuid4()
-            self.userdidmap[ctx.user_id].append(str(newid))
+        if not ctx.user_id in self.userdidmap:
+            self.userdidmap[ctx.user_id] = []
+
+        newid = uuid.uuid4()
+        self.userdidmap.get(ctx.user_id).append(str(newid))
 
         self.didcontentmap[newid] = design_content
 
@@ -48,10 +50,10 @@ class DesignService(DesignServiceInterface):
     def get_design(self, ctx: AuthContext, design_id: str) -> str:
         """Returns the design content, if the user has access to the design."""
 
-        dlist = self.usercontentdict.get(ctx.user_id)
-
-        if dlist:
-            return dlist.get(design_id)
+        dlist = self.userdidmap.get(ctx.user_id)
+        if not design_id in didcontentmap.keys
+        if design_id in dlist:
+            return self.didcontentmap.get(design_id)
         else:
             raise Exception()
 
